@@ -1,24 +1,41 @@
 package chessengine.src.main;
 
 public class Board {
-    private Board(){}
-
     private static Board instance = null;
+    
+    /*
+     * a1=0, b1=1, c1=2, ..., a2=8,...
+     */
+    private long[] bitBoards;
+    private Player toPlay;
+    private int castlingRights;
+    private int enPassantSquareIndex;
+    private int reversibleHalfMoves;
+    private int moveNumber;
+
+    /**
+     * Constructor for Board class
+     * Private because Board is singleton
+     * Initializes values
+     */
+    private Board(){
+        this.bitBoards = new long[16];
+        this.toPlay = Player.WHITE;
+        this.castlingRights = CastlingRights.ALL;
+        this.enPassantSquareIndex = -1;
+        this.reversibleHalfMoves = 0;
+        this.moveNumber = 1;
+    }
+
     /**
      * Returns the only Board object
      * @return  Board object
      */
     public static Board getBoard(){
-        if(instance == null){
+        if(instance == null)
             instance = new Board();
-        }
         return instance;
     }
-
-    /*
-     * a1=0, b1=1, c1=2, ..., a2=8,...
-     */
-    private long[] bitBoards = new long[16];
 
     /**
      * Loads standard FEN string to the board
@@ -26,12 +43,9 @@ public class Board {
      */
     public void loadFEN(String fen){
         int squareIndex = 56;
-        for(char ch : fen.toCharArray()){
-            //only loop until space
-            if(ch == ' '){
-                break;
-            }
-
+        String[] fenParts = fen.split(" ");
+        //1st part: position of pieces
+        for(char ch : fenParts[0].toCharArray()){
             //the slash means next rank
             if(ch == '/'){
                 squareIndex = (squareIndex / 8 - 2) * 8;
@@ -72,6 +86,36 @@ public class Board {
                 squareIndex++;
             }
         }
+
+        //2nd part: next player
+        if (fenParts[1].equals("w"))
+            toPlay = Player.WHITE;
+        else
+            toPlay = Player.BLACK;
+
+        //3rd part: castling rights
+        if(fenParts[2].contains("K"))
+            castlingRights = CastlingRights.WHITE_KING;
+        if(fenParts[2].contains("Q"))
+            castlingRights |= CastlingRights.WHITE_QUEEN;
+        if(fenParts[2].contains("k"))
+            castlingRights |= CastlingRights.BLACK_KING;
+        if(fenParts[2].contains("q"))
+            castlingRights |= CastlingRights.BLACK_QUEEN;
+
+        //4th part: en passant target square
+        if(fenParts[3].equals("-"))
+            enPassantSquareIndex = -1;
+        else {
+            char[] squareName = fenParts[3].toCharArray();
+            enPassantSquareIndex = (squareName[0] - 'a') | ((squareName[1] - '1') << 3);
+        }
+
+        //5th part: halfmoves after last pawn move/ capture
+        reversibleHalfMoves = Integer.parseInt(fenParts[4]);
+
+        //6th part: move number
+        moveNumber = Integer.parseInt(fenParts[5]);
     }
 
     public String toString(){
