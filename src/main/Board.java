@@ -67,8 +67,9 @@ public class Board {
                         piece = Pieces.PAWN;
                         break;
                 }
-                bitBoards[player | piece] |= (1 << squareIndex);
-                bitBoards[player | Pieces.ALL] |= (1 << squareIndex);
+                bitBoards[player | piece] |= (1l << squareIndex);
+                bitBoards[player | Pieces.ALL] |= (1l << squareIndex);
+                squareIndex++;
             }
         }
     }
@@ -82,18 +83,18 @@ public class Board {
             for(int file = 0; file < 8; file++){
                 res += " | ";
                 int squareIndex = (rank - 1) * 8 + file;
-                char piece = (char)( ((bitBoards[Pieces.BLACK | Pieces.ROOK] >> squareIndex) & 1) * 'r' +
-                                    ((bitBoards[Pieces.BLACK | Pieces.KNIGHT] >> squareIndex) & 1) * 'n' +
-                                    ((bitBoards[Pieces.BLACK | Pieces.BISHOP] >> squareIndex) & 1) * 'b' +
-                                    ((bitBoards[Pieces.BLACK | Pieces.QUEEN] >> squareIndex) & 1) * 'q' +
-                                    ((bitBoards[Pieces.BLACK | Pieces.KING] >> squareIndex) & 1) * 'k' +
-                                    ((bitBoards[Pieces.BLACK | Pieces.PAWN] >> squareIndex) & 1) * 'p' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.ROOK] >> squareIndex) & 1) * 'R' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.KNIGHT] >> squareIndex) & 1) * 'N' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.BISHOP] >> squareIndex) & 1) * 'B' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.QUEEN] >> squareIndex) & 1) * 'Q' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.KING] >> squareIndex) & 1) * 'K' +
-                                    ((bitBoards[Pieces.WHITE | Pieces.PAWN] >> squareIndex) & 1) * 'P' );
+                char piece = (char)( ((bitBoards[Pieces.BLACK | Pieces.ROOK] >> squareIndex) & 1l) * 'r' +
+                                    ((bitBoards[Pieces.BLACK | Pieces.KNIGHT] >> squareIndex) & 1l) * 'n' +
+                                    ((bitBoards[Pieces.BLACK | Pieces.BISHOP] >> squareIndex) & 1l) * 'b' +
+                                    ((bitBoards[Pieces.BLACK | Pieces.QUEEN] >> squareIndex) & 1l) * 'q' +
+                                    ((bitBoards[Pieces.BLACK | Pieces.KING] >> squareIndex) & 1l) * 'k' +
+                                    ((bitBoards[Pieces.BLACK | Pieces.PAWN] >> squareIndex) & 1l) * 'p' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.ROOK] >> squareIndex) & 1l) * 'R' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.KNIGHT] >> squareIndex) & 1l) * 'N' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.BISHOP] >> squareIndex) & 1l) * 'B' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.QUEEN] >> squareIndex) & 1l) * 'Q' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.KING] >> squareIndex) & 1l) * 'K' +
+                                    ((bitBoards[Pieces.WHITE | Pieces.PAWN] >> squareIndex) & 1l) * 'P' );
                 if(piece == '\0')
                     piece = ' ';
                 res += piece;
