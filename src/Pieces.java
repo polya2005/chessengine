@@ -5,14 +5,14 @@ package chessengine.src;
  * e.g. white king = Pieces.WHITE | Pieces.KING
  */
 public class Pieces {
-    public final int PAWN = 0;
-    public final int KNIGHT = 1;
-    public final int BISHOP = 2;
-    public final int ROOK = 3;
-    public final int QUEEN = 4;
-    public final int KING = 5;
-    public final int ALL = 6;
+    public static final int PAWN = 0;
+    public static final int KNIGHT = 1;
+    public static final int BISHOP = 2;
+    public static final int ROOK = 3;
+    public static final int QUEEN = 4;
+    public static final int KING = 5;
+    public static final int ALL = 6;
 
-    public final int WHITE = 0;
-    public final int BLACK = 8;
+    public static final int WHITE = 0;
+    public static final int BLACK = 8;
 }
