@@ -1,4 +1,4 @@
-package chessengine.src;
+package chessengine.src.main;
 
 /**
  * Constants for piece ids
