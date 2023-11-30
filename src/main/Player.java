@@ -15,5 +15,13 @@ public enum Player {
 
     public int toPieceColor(){
         return playerNo << 3;
-    } 
+    }
+
+    public static Player fromPlayerNo(short playerNo){
+        return (playerNo == 0) ? WHITE : BLACK;
+    }
+    
+    public static Player fromPieceColor(int pieceColor){
+        return (pieceColor == 0) ? WHITE : BLACK;
+    }
 }
