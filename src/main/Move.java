@@ -16,6 +16,13 @@ public class Move {
         public static final short PROMOTE_TO_QUEEN = 7;
     }
 
+    public static class NotPromotionException extends Exception{
+        @Override
+        public String getMessage(){
+            return "The move is not promotion, but piecePromoted() is called";
+        }
+    }
+
     /*
      * b0-b5: from square
      * b6-b11: to square
@@ -77,8 +84,9 @@ public class Move {
      * @return  the piece id of the piece promoted
      * @see Pieces
      */
-    public int piecePromoted(){
-        assert isPromotion() : "The move is not promotion";
+    public int piecePromoted() throws NotPromotionException{
+        if(!isPromotion())
+            throw new NotPromotionException();
         return (move16bit & 0xb000) >> 12 + Pieces.KNIGHT;
     }
 }
