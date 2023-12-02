@@ -13,4 +13,14 @@ public class IllegalMoveException extends Exception{
     public IllegalMoveException(Move move){
         super("The move " + move + " is illegal.");
     }
+
+    /**
+     * Constructs an {@code IllegalMoveException} with the specified move and 
+     * detail.
+     * @param move  the illegal move
+     * @param details  the explanation of how the move is illegal
+     */
+    public IllegalMoveException(Move move, String details){
+        super("The move " + move + " is illegal: " + details);
+    }
 }
