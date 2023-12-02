@@ -1,4 +1,5 @@
 package chessengine.src.main;
+import chessengine.src.main.exceptions.NotPromotionException;
 
 public class Move {
 
@@ -16,12 +17,7 @@ public class Move {
         public static final short PROMOTE_TO_QUEEN = 7;
     }
 
-    public static class NotPromotionException extends Exception{
-        @Override
-        public String getMessage(){
-            return "The move is not promotion, but piecePromoted() is called";
-        }
-    }
+    private static String[] moveFlagNames = {"None", "En Passant", "Pawn 2 steps", "Castling", "Knight Promotion", "Bishop Promotion", "Rook Promotion", "Queen Promotion"};
 
     /*
      * b0-b5: from square
@@ -86,7 +82,11 @@ public class Move {
      */
     public int piecePromoted() throws NotPromotionException{
         if(!isPromotion())
-            throw new NotPromotionException();
+            throw new NotPromotionException(this);
         return (move16bit & 0xb000) >> 12 + Pieces.KNIGHT;
+    }
+
+    public String toString(){
+        return Board.squareIndexToName(getFromSquare()) + Board.squareIndexToName(move16bit) + " (Flag: " + moveFlagNames[getMoveFlag()] + ")";
     }
 }
