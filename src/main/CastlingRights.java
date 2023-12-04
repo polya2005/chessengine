@@ -14,4 +14,16 @@ public class CastlingRights {
     public static final int BLACK_BOTH = BLACK_KING | BLACK_QUEEN;
 
     public static final int ALL = KINGSIDE | QUEENSIDE;
+
+    /**
+     * Checks if the castling rights specified by {@code castlingRightsCode} contain
+     * the right to castle in the way specified by {@code castlingType}.
+     * @param castlingRightsCode  an integer specifying the castling rights
+     * @param castlingType  {@code WHITE_KING, WHITE_QUEEN, BLACK_KING,} or {@code BLACK_QUEEN}.
+     * @return {@code true} if the castling rights specified by {@code castlingRightsCode} contain
+     * the right to castle in the way specified by {@code castlingType}, and {@code false} otherwise.
+     */
+    public static boolean containsCastlingRights(int castlingRightsCode, int castlingType){
+        return (castlingRightsCode & castlingType) == castlingType;
+    }
 }
