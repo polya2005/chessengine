@@ -1,26 +1,33 @@
 package chessengine.src.main;
 
+import chessengine.src.main.exceptions.IncorrectPlayerToMoveException;
+
 public class Board {
     private static Board instance = null;
+
+    private static String colString = "abcdefgh";
+
+    public static String squareIndexToName(short squareIndex){
+        return colString.substring(squareIndex % 8, squareIndex % 8 + 1) + (squareIndex/8 + 1);
+    }
     
     /*
      * a1=0, b1=1, c1=2, ..., a2=8,...
      */
     private long[] bitBoards;
-    private Player toPlay;
+    private Player playerToMove;
     private int castlingRights;
     private int enPassantSquareIndex;
     private int reversibleHalfMoves;
     private int moveNumber;
 
     /**
-     * Constructor for Board class
-     * Private because Board is singleton
-     * Initializes values
+     * Constructor for Board class, private because Board is singleton.
+     * Initializes values.
      */
     private Board(){
         this.bitBoards = new long[16];
-        this.toPlay = Player.WHITE;
+        this.playerToMove = Player.WHITE;
         this.castlingRights = CastlingRights.ALL;
         this.enPassantSquareIndex = -1;
         this.reversibleHalfMoves = 0;
@@ -89,9 +96,9 @@ public class Board {
 
         //2nd part: next player
         if (fenParts[1].equals("w"))
-            toPlay = Player.WHITE;
+            playerToMove = Player.WHITE;
         else
-            toPlay = Player.BLACK;
+            playerToMove = Player.BLACK;
 
         //3rd part: castling rights
         if(fenParts[2].contains("K"))
@@ -116,6 +123,32 @@ public class Board {
 
         //6th part: move number
         moveNumber = Integer.parseInt(fenParts[5]);
+    }
+
+    /**
+     * If the move is illegal for the current state of the board, the exception
+     * will be thrown. Otherwise, this does nothing.
+     * @param move  the move to validate
+     * @throws IncorrectPlayerToMoveException
+     */
+    public void validateMove(Move move) throws IncorrectPlayerToMoveException{
+        Player playerToMove = move.getPlayer();
+        if(playerToMove != this.playerToMove){
+            throw new IncorrectPlayerToMoveException(move);
+        }
+        short moveFlag = move.getMoveFlag();
+        switch(moveFlag){
+            case Move.MoveFlag.CASTLING:
+                
+        }
+    }
+
+    public void makeMove(Move move) throws IncorrectPlayerToMoveException{
+        short moveFlag = move.getMoveFlag();
+        switch(moveFlag){
+            case Move.MoveFlag.CASTLING:
+            
+        }
     }
 
     public String toString(){
