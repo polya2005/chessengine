@@ -39,6 +39,10 @@ public enum Square {
         return rankStrings[getFile(squareIndex) - 1] + getRank(squareIndex);
     }
 
+    public static Square fromSquareIndex(short squareIndex){
+        return Square.values()[squareIndex];
+    }
+
     /**
      * Extracts the rank (row) data from square index.
      * @return  the rank of the square, from 1 to 8 inclusive
