@@ -87,6 +87,6 @@ public class Move {
     }
 
     public String toString(){
-        return Board.squareIndexToName(getFromSquare()) + Board.squareIndexToName(getToSquare()) + " (Flag: " + moveFlagNames[getMoveFlag()] + ")";
+        return Square.squareIndexToName(getFromSquare()) + Square.squareIndexToName(getToSquare()) + " (Flag: " + moveFlagNames[getMoveFlag()] + ")";
     }
 }
