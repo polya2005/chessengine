@@ -23,7 +23,7 @@ public class Move {
      * b0-b5: from square
      * b6-b11: to square
      * b12-b14: move flag
-     * b15: player
+     * b15: isCapture
      */
     private short move16bit;
 
@@ -32,11 +32,11 @@ public class Move {
      * @param fromSquare  initial square of the move (0-63)
      * @param toSquare  final square of the move (0-63)
      * @param flag  3-bit value flag for move type
-     * @param player  0 for white and 1 for black
+     * @param isCapture  true if the move is capturing
      * @see MoveFlag
      */
-    public Move(short fromSquare, short toSquare, short flag, Player player){
-        move16bit = (short)(fromSquare | (toSquare << 6) | (flag << 12) | (player.toPlayerNo() << 15));
+    public Move(short fromSquare, short toSquare, short flag, boolean isCapture){
+        move16bit = (short)(fromSquare | (toSquare << 6) | (flag << 12) | ((isCapture ? 1 : 0) << 15));
     }
 
     /**
@@ -62,11 +62,10 @@ public class Move {
     }
 
     /**
-     * @return  Player who played the move
-     * @see Player
+     * @return  true if the move is capturing
      */
-    public Player getPlayer(){
-        return Player.fromPlayerNo((short)((move16bit & 0x8000) >> 15));
+    public boolean isCapture(){
+        return (move16bit & 0x8000) != 0;
     }
 
     /**
